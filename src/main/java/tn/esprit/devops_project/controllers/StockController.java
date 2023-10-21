@@ -1,33 +1,33 @@
-package tn.esprit.devops_project.controllers;
+@ExtendWith(SpringExtension.class)
+@SpringBootTest
+@Transactional
+@TestExecutionListeners({DependencyInjectionTestExecutionListener.class,
+        DirtiesContextTestExecutionListener.class,
+        TransactionalTestExecutionListener.class,
+        DbUnitTestExecutionListener.class})
+@ActiveProfiles("test")
+class StockServiceImplTest {
 
+    @Autowired
+    private StockServiceImpl stockService;
 
-import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.*;
-import tn.esprit.devops_project.entities.Stock;
-import tn.esprit.devops_project.services.Iservices.IStockService;
-import java.util.List;
-
-@CrossOrigin(origins = "*")
-@RestController
-@AllArgsConstructor
-public class StockController {
-
-    IStockService stockService;
-
-    @PostMapping("/stock")
-    Stock addStock(@RequestBody Stock stock){
-        return stockService.addStock(stock);
+    @Test
+    void addStock() {
     }
 
-    @GetMapping("/stock/{id}")
-    Stock retrieveStock(@PathVariable Long id){
-        return stockService.retrieveStock(id);
+    @Test
+    @DatabaseSetup("/data-set/stock-data.xml")
+    void retrieveStock() {
+        final Stock stock = this.stockService.retrieveStock(1L);
+        assertEquals("stock 1", stock.getTitle());
     }
 
-    @GetMapping("/stock")
-    List<Stock> retrieveAllStock(){
-        return stockService.retrieveAllStock();
+    @Test
+    @DatabaseSetup("/data-set/stock-data.xml")
+    void retrieveAllStock() {
+        final List<Stock> allStocks = this.stockService.retrieveAllStock();
+        if (!CollectionUtils.isEmpty(allStocks)) {
+            assertEquals(allStocks.size(), 1);
+        }
     }
-
-
 }
