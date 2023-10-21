@@ -4,9 +4,7 @@ pipeline {
         // Email Notification
         stage('Send Email Notification') {
             steps {
-                script {3
-
-                        azeaze
+                script {
                     def contenuReadMe = readFile('README.md')
                     
                     def subject = 'New Project Commit - Iskander BARGAOUI'
