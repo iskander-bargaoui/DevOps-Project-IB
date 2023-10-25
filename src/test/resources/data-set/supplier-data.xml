@@ -6,10 +6,4 @@
             label="label 1"
             SUPPLIER_CATEGORY="ORDINAIRE"
     />
-  <!--  <supplier
-            ID_SUPPLIER="3"
-            code="c3"
-            label="label 3"
-            SUPPLIER_CATEGORY="ORDINAIRE"
-    />-->
 </dataset>

@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <dataset>
-    <stock
-            title="stock 1"
-            ID_STOCK="1"
+    <operator
+            ID_OPERATEUR="1"
+            fname="name 1"
+            lname="lname 1"
+            password="pass"
     />
 </dataset>

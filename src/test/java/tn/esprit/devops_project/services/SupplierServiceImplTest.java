@@ -13,6 +13,7 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import org.springframework.transaction.annotation.Transactional;
+import tn.esprit.devops_project.entities.Operator;
 import tn.esprit.devops_project.entities.Stock;
 import tn.esprit.devops_project.entities.Supplier;
 import tn.esprit.devops_project.entities.SupplierCategory;
@@ -34,6 +35,7 @@ class SupplierServiceImplTest {
     @Autowired
     SupplierServiceImpl supplierService;
 
+    // DONE
     @Test
     @DatabaseSetup("/data-set/supplier-data.xml")
     void retrieveAllSuppliers() {
@@ -96,5 +98,14 @@ class SupplierServiceImplTest {
 //        // Attempt to retrieve the deleted supplier, it should be null
 //        Supplier deletedSupplier = this.supplierService.retrieveSupplier(2L);
 //        assertNull(deletedSupplier);
+    }
+
+    // Exception Retrieve Supplier
+    @Test
+    @DatabaseSetup("/data-set/supplier-data.xml")
+    void retrieveSupplier_Null() {
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            final Supplier supplier = this.supplierService.retrieveSupplier(50L);
+        });
     }
 }

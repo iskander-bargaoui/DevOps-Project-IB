@@ -31,6 +31,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @ActiveProfiles("test")
 class StockServiceImplTest {
 
+    // DONE
     @Autowired
     private StockServiceImpl stockService;
 
@@ -44,6 +45,14 @@ class StockServiceImplTest {
         assertEquals(this.stockService.retrieveStock(2L).getTitle(),"Title");
     }
 
+    // Exception
+    @Test
+    @DatabaseSetup("/data-set/stock-data.xml")
+    void retrieveStock_nullId() {
+        Exception exception = assertThrows(NullPointerException.class, () -> {
+            final Stock stock = this.stockService.retrieveStock(100L);
+        });
+    }
     @Test
     @DatabaseSetup("/data-set/stock-data.xml")
     void retrieveStock() {
