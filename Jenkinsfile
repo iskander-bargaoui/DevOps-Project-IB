@@ -1,24 +1,41 @@
 pipeline {
     agent any
     stages {
-        // Email Notification
-        stage('Send Email Notification') {
+        stage('SCM Checkout') {
             steps {
                 script {
-                    //abc
-                    def contenuReadMe = readFile('README.md')
-                    
-                    def subject = 'New Project Commit - Iskander BARGAOUI'
-                    def buildStartTime = new Date(currentBuild.startTimeInMillis)
-                    def formattedDate = buildStartTime.format('yyyy-MM-dd HH:mm:ss')
-                    def body = "A new commit has been made to the repository on ${formattedDate}.\n\n${contenuReadMe}"
-                    def to = 'iskanderbargaouitest@gmail.com'
-                    
-                    mail(
-                        subject: subject,
-                        body: body,
-                        to: to,
-                    )
+                    // Stage 1: Git Checkout
+                    checkout([$class: 'GitSCM',
+                        branches: [[name: 'Back']],
+                        userRemoteConfigs: [[
+                            url: 'https://github.com/samarbouzazi/DevOps_Project.git',
+                            credentialsId: 'GithubJenkinsToken'
+                        ]]
+                    ])
+                }
+            }
+        }
+        stage('Compile') {
+            steps {
+                script {
+                    // Stage 2: Compile the project into a .jar file
+                    sh "mvn compile"
+                }
+            }
+        }
+        stage('Building Back Application') {
+            steps {
+                script {
+                    // Stage 3: Run tests
+                    sh "mvn test"
+                }
+            }
+        }
+        stage('Build') {
+            steps {
+                script {
+                    // Stage 4: Build the application
+                    sh "mvn package"
                 }
             }
         }
