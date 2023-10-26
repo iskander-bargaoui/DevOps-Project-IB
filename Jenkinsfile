@@ -43,16 +43,14 @@ pipeline {
             }
         }
         stage('SonarQube Analysis') {
-             tools {
-                        jdk 'java11.1'
-                    }
-            stage('SonarQube Analysis') {
-  steps {
-    withSonarQubeEnv('SonarQube') {
-      sh 'mvn sonar:sonar'
-    }
-  }
-}
+            tools {
+                jdk 'java11.1'
+            }
+            steps {
+                withSonarQubeEnv('SonarQube') {
+                    sh 'mvn sonar:sonar'
+                }
+            }
         }
     }
 }
