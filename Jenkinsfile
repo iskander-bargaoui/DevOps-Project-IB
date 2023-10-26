@@ -19,7 +19,9 @@ pipeline {
             steps {
                 script {
                     // Stage 2: Compile the project into a .jar file
-                    sh "mvn compile"
+                    withMaven(jdk: 'JDK8') {
+                        sh "mvn compile"
+                    }
                 }
             }
         }
@@ -27,7 +29,9 @@ pipeline {
             steps {
                 script {
                     // Stage 3: Run tests
-                    sh "mvn test"
+                    withMaven(jdk: 'JDK8') {
+                        sh "mvn test"
+                    }
                 }
             }
         }
@@ -35,7 +39,9 @@ pipeline {
             steps {
                 script {
                     // Stage 4: Build the application
-                    sh "mvn package"
+                    withMaven(jdk: 'JDK8') {
+                        sh "mvn package"
+                    }
                 }
             }
         }
