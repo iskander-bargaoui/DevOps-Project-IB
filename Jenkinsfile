@@ -2,7 +2,7 @@ pipeline {
     agent any
     environment {
         JDK8 = tool name: 'java1.8', type: 'jdk'
-        JDK11 = tool name: 'java11', type: 'jdk'
+        JDK11 = tool name: 'java11.1', type: 'jdk'
     }
     stages {
         stage('SCM Checkout') {
