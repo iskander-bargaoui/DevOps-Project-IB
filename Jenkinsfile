@@ -1,5 +1,9 @@
 pipeline {
     agent any
+    environment {
+        JDK8 = tool name: 'java1.8', type: 'jdk'
+        JDK11 = tool name: 'java11', type: 'jdk'
+    }
     stages {
         stage('SCM Checkout') {
             steps {
@@ -19,7 +23,9 @@ pipeline {
             steps {
                 script {
                     // Stage 2: Compile the project into a .jar file
-                    sh "mvn compile"
+                    withEnv(["JAVA_HOME=${JDK8}"]) {
+                        sh "mvn compile"
+                    }
                 }
             }
         }
@@ -27,7 +33,9 @@ pipeline {
             steps {
                 script {
                     // Stage 3: Run tests
-                    sh "mvn test"
+                    withEnv(["JAVA_HOME=${JDK8}"]) {
+                        sh "mvn test"
+                    }
                 }
             }
         }
@@ -35,19 +43,25 @@ pipeline {
             steps {
                 script {
                     // Stage 4: Build the application
-                    sh "mvn package"
+                    withEnv(["JAVA_HOME=${JDK8}"]) {
+                        sh "mvn package"
+                    }
                 }
             }
         }
         stage('SonarQube Analysis') {
             steps {
-                withSonarQubeEnv('sonar-scanner') {
-                    sh 'mvn sonar:sonar'
+                script {
+                    // Stage 5: Execute SonarQube analysis with Java 11
+                    withEnv(["JAVA_HOME=${JDK11}"]) {
+                        sh 'mvn sonar:sonar'
+                    }
                 }
             }
         }
     }
     tools {
         jdk 'java1.8'
+        jdk11 'java11'
     }
 }
