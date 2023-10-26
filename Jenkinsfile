@@ -19,7 +19,6 @@ pipeline {
             steps {
                 script {
                     // Stage 2: Compile the project into a .jar file
-                    withEnv(["JAVA_HOME=${JDK8}"]) {
                         sh "mvn compile"
                     }
                 }
@@ -29,7 +28,6 @@ pipeline {
             steps {
                 script {
                     // Stage 3: Run tests
-                    withEnv(["JAVA_HOME=${JDK8}"]) {
                         sh "mvn test"
                     }
                 }
@@ -39,17 +37,19 @@ pipeline {
             steps {
                 script {
                     // Stage 4: Build the application
-                    withEnv(["JAVA_HOME=${JDK8}"]) {
                         sh "mvn package"
                     }
                 }
             }
         }
         stage('SonarQube Analysis') {
+            tools{
+                    jdk 'java11.1'
+                }
             steps {
                 script {
                     // Stage 5: Execute SonarQube analysis with Java 11
-                    withEnv(["JAVA_HOME=${JDK11}"]) {
+                    
                         sh 'mvn sonar:sonar'
                     }
                 }
@@ -58,6 +58,5 @@ pipeline {
     }
     tools {
         jdk 'java1.8'
-        jdk11 'java11.1'
     }
 }
