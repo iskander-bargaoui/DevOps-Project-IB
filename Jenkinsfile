@@ -62,6 +62,6 @@ pipeline {
     }
     tools {
         jdk 'java1.8'
-        jdk11 'java11'
+        jdk11 'java11.1'
     }
 }
