@@ -46,13 +46,13 @@ pipeline {
              tools {
                         jdk 'java11.1'
                     }
-            steps {
-                script {
-                    // Stage 5: Execute SonarQube analysis with Java 11
-                   
-                    sh 'mvn sonar:sonar'
-                }
-            }
+            stage('SonarQube Analysis') {
+  steps {
+    withSonarQubeEnv('SonarQube') {
+      sh 'mvn sonar:sonar'
+    }
+  }
+}
         }
     }
 }
