@@ -59,7 +59,7 @@ pipeline {
         // Dockerhub
          stage('Docker Build Image') {
             steps {
-                    sh 'sudo chmod +777 /var/run/docker.sock'
+                    sh 'chmod +777 /var/run/docker.sock'
                     sh 'docker build -t $TAG .'
             }
         }
