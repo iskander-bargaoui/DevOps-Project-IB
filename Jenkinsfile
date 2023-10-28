@@ -1,5 +1,9 @@
 pipeline {
     agent any
+    environment {
+        DOCKERHUB_USERNAME = "iskander20"
+        TAG = "${DOCKERHUB_USERNAME}/devopsproject:backapp"
+    }
     tools {
         jdk 'java1.8'
     }
@@ -52,5 +56,24 @@ pipeline {
                 }
             }
         }
+        // Dockerhub
+         stage('Docker Build Image') {
+            steps {
+                    sh 'docker build -t $TAG .'
+            }
+        }
+         stage('Docker Login') {
+      steps {
+        withCredentials([usernamePassword(credentialsId: 'DockerHubCreds', usernameVariable: 'DOCKERHUB_USERNAME', passwordVariable: 'DOCKERHUB_PASSWORD')]) {
+          sh 'docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD'
+        }
+      }
+    }
+        stage('Docker Push') {
+            steps {
+                    sh 'docker push $TAG'
+            }
+        }
     }
 }
+
