@@ -21,6 +21,6 @@ FROM nginx:1.21-alpine as production-stage
 ## Copy the built files from the previous stage into the NGINX server
 COPY --from=build /app/dist /usr/share/nginx/html
 
-EXPOSE 80  #Expose the default HTTP port for NGINX
+EXPOSE 80
 
 CMD ["nginx", "-g", "daemon off;"]
