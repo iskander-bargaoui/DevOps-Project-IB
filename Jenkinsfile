@@ -2,10 +2,12 @@ pipeline {
     agent any
     environment {
         DOCKERHUB_USERNAME = "iskander20"
-        TAG = "${DOCKERHUB_USERNAME}/devopsproject:backapp"
+        BACKTAG = "${DOCKERHUB_USERNAME}/devopsproject:backapp"
+        FRONTAG = "${DOCKERHUB_USERNAME}/devopsproject:frontapp"
     }
     tools {
         jdk 'java1.8'
+        nodejs 'NodeJS'
     }
     stages {
         stage('SCM Checkout') {
@@ -56,11 +58,12 @@ pipeline {
                 }
             }
         }
-        // Dockerhub
+        // Building Docker Image -------- Backend Springboot Application (BACKTAG)
+
         stage('Docker Build Image') {
             steps {
                 script {
-                    sh "docker build -t $TAG ."
+                    sh "docker build -t $BACKTAG ."
                 }
             }
         }
@@ -76,7 +79,7 @@ pipeline {
         stage('Docker Push') {
             steps {
                 script {
-                    sh "docker push $TAG"
+                    sh "docker push $BACKTAG"
                 }
             }
         }
@@ -116,6 +119,33 @@ pipeline {
                 }
             }
         }
+
+        // Building Docker Image -------- Frontend Angular Application (FRONTAG)
+
+        stage('Docker Build Image') {
+            steps {
+                script {
+                    sh "docker build -t $FRONTAG ."
+                }
+            }
+        }
+        stage('Docker Login') {
+            steps {
+                script {
+                    withCredentials([usernamePassword(credentialsId: 'DockerHubCreds', usernameVariable: 'DOCKERHUB_USERNAME', passwordVariable: 'DOCKERHUB_PASSWORD')]) {
+                        sh "docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD"
+                    }
+                }
+            }
+        }
+        stage('Docker Push') {
+            steps {
+                script {
+                    sh "docker push $FRONTAG"
+                }
+            }
+        }
+
 
         // Grafana + Prometheus
     }
