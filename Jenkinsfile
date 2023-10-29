@@ -87,7 +87,7 @@ pipeline {
             steps {
                 script {
                     // Exécuter mvn deploy en sautant les tests
-                    sh "mvn deploy -DskipTests"
+                    sh "mvn deploy -U -DskipTests"
                 }
             }
         }
