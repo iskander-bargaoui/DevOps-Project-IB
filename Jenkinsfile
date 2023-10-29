@@ -122,14 +122,14 @@ pipeline {
 
         // Building Docker Image -------- Frontend Angular Application (FRONTAG)
 
-        stage('Docker Build Image') {
+        stage('Docker Build Image Front') {
             steps {
                 script {
                     sh "docker build -t $FRONTAG ."
                 }
             }
         }
-        stage('Docker Login') {
+        stage('Docker Login Front') {
             steps {
                 script {
                     withCredentials([usernamePassword(credentialsId: 'DockerHubCreds', usernameVariable: 'DOCKERHUB_USERNAME', passwordVariable: 'DOCKERHUB_PASSWORD')]) {
@@ -138,7 +138,7 @@ pipeline {
                 }
             }
         }
-        stage('Docker Push') {
+        stage('Docker Push Front Image') {
             steps {
                 script {
                     sh "docker push $FRONTAG"
