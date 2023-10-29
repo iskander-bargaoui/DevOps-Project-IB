@@ -57,37 +57,40 @@ pipeline {
             }
         }
         // Dockerhub
-         stage('Docker Build Image') {
+        stage('Docker Build Image') {
             steps {
-                    sh 'docker build -t $TAG .'
+                script {
+                    sh "docker build -t $TAG ."
+                }
             }
         }
-         stage('Docker Login') {
-      steps {
-        withCredentials([usernamePassword(credentialsId: 'DockerHubCreds', usernameVariable: 'DOCKERHUB_USERNAME', passwordVariable: 'DOCKERHUB_PASSWORD')]) {
-          sh 'docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD'
+        stage('Docker Login') {
+            steps {
+                script {
+                    withCredentials([usernamePassword(credentialsId: 'DockerHubCreds', usernameVariable: 'DOCKERHUB_USERNAME', passwordVariable: 'DOCKERHUB_PASSWORD')]) {
+                        sh "docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD"
+                    }
+                }
+            }
         }
-      }
-    }
         stage('Docker Push') {
             steps {
-                    sh 'docker push $TAG'
+                script {
+                    sh "docker push $TAG"
+                }
             }
         }
 
-        // Nexus + Front + Grafan prom
+        // Nexus + Front + Grafana prometheus
 
-    }
-
-// Nexus
-
-    stage('Deploy Artifacts') {
-    steps {
-        script {
-            // Exécuter mvn deploy en sautant les tests
-            sh "mvn deploy -DskipTests"
+        // Nexus
+        stage('Deploy Artifacts') {
+            steps {
+                script {
+                    // Exécuter mvn deploy en sautant les tests
+                    sh "mvn deploy -DskipTests"
+                }
+            }
         }
     }
 }
-}
-
