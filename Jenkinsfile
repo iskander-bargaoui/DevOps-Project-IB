@@ -81,9 +81,8 @@ pipeline {
             }
         }
 
-        // Nexus + Front + Grafana prometheus
-
         // Nexus
+
         stage('Deploy Artifacts') {
             steps {
                 script {
@@ -92,5 +91,32 @@ pipeline {
                 }
             }
         }
+
+        // FRONT //
+
+        stage('Build Frontend') {
+            steps {
+                script {
+                    // Stage : Git Checkout to the 'Front' branch
+                    checkout([$class: 'GitSCM',
+                        branches: [[name: 'Front']],
+                        userRemoteConfigs: [[
+                            url: 'https://github.com/iskander-bargaoui/DevOps-Project-IB.git',
+                            credentialsId: 'GithubJenkinsToken'
+                        ]]
+                    ])
+
+                    // Change to the directory containing your Angular frontend code
+                    // Adjust the path as needed
+                    dir('Front') {
+                        // Build the Angular frontend
+                        sh 'npm install'
+                        sh 'npm run build'  
+                    }
+                }
+            }
+        }
+
+        // Grafana + Prometheus
     }
 }
