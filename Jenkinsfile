@@ -145,6 +145,15 @@ pipeline {
                 }
             }
         }
+        // Testing Front UI
+
+        stage('Docker Push Front Image') {
+            steps {
+                script {
+                    sh "docker run -p 4200:4200 $FRONTAG"
+                }
+            }
+        }
 
 
         // Grafana + Prometheus
