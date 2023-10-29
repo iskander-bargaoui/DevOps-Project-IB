@@ -78,5 +78,16 @@ pipeline {
         // Nexus + Front + Grafan prom
 
     }
+
+// Nexus
+
+    stage('Deploy Artifacts') {
+    steps {
+        script {
+            // Exécuter mvn deploy en sautant les tests
+            sh "mvn deploy -DskipTests"
+        }
+    }
+}
 }
 
