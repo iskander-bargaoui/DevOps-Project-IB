@@ -141,14 +141,22 @@ pipeline {
                 }
             }
         }
+
+
+        stage('Deploy Docker Compose') {
+            steps {
+                sh 'docker-compose up -d'  // Deploy Docker Compose services
+            }
+        }
         // Testing Front UI
-        stage('Docker Test Front UI') {
+      /*  stage('Docker Test Front UI') {
             steps {
                 script {
                     sh "docker run -p 4200:4200 $FRONTAG"
                 }
             }
-        }
+        }*/ 
+
         // Grafana + Prometheus
     }
 }
