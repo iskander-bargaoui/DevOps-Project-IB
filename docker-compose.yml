@@ -12,7 +12,7 @@ services:
       - ./data.sql:/docker-entrypoint-initdb.d/data.sql
     networks:
       - my-network
-
+# back app
   back-app:
     image: iskander20/devopsproject:backapp
     container_name: spring-back-project
@@ -26,6 +26,20 @@ services:
       SPRING_DATASOURCE_PASSWORD:
     networks:
       - my-network
-
+    volumes:
+      - ./backend-data:/app/data  # Shared volume for the backend
+## front app
+  front-app:
+    image: iskander20/devopsproject:frontapp
+    container_name: angular-front-project
+    ports:
+      - "4200:4200"
+    depends_on:
+      - back-app
+    networks:
+      - my-network
+    volumes:
+      - ./frontend-data:/app/dist  # Shared volume for the frontend
+## network and shared volumes
 networks:
   my-network:
