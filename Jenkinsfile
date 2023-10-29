@@ -98,7 +98,7 @@ pipeline {
 
         stage('Frontend Stages') {
             when {
-                expression { env.BRANCH_NAME ==~ /.*Front.*/ }  // Run if the branch name contains "Front"
+                expression { env.BRANCH_NAME == 'Front' }  // Run if the branch name contains "Front"
             }
             stages {
                 stage('Build Frontend') {
