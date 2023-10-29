@@ -89,6 +89,14 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        <!-- Deploy to Nexus -->
+<distributionManagement>
+<repository>
+<id>deploymentRepo</id>
+<name>Nexus Repository</name>
+<url>http://192.168.126.175:8081/repository/maven-releases/</url>
+</repository>
+</distributionManagement>
 
 
 
@@ -114,6 +122,7 @@
    <artifactId>maven-surefire-plugin</artifactId>
    <version>3.0.0-M1</version>
 </plugin>
+
 
             <plugin>
                 <groupId>org.jacoco</groupId>
