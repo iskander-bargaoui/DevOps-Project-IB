@@ -60,6 +60,18 @@ pipeline {
                 }
             }
         }
+
+           // Nexus
+
+        stage('Deploy Artifacts') {
+            steps {
+                script {
+                    // Execute mvn deploy skipping tests
+                    sh "mvn deploy -U -DskipTests"
+                }
+            }
+        }
+
         // Building Docker Image for Backend
         stage('Docker Build Image') {
             steps {
@@ -84,17 +96,7 @@ pipeline {
                 }
             }
         }
-        // Nexus
-
-        stage('Deploy Artifacts') {
-            steps {
-                script {
-                    // Execute mvn deploy skipping tests
-                    sh "mvn deploy -U -DskipTests"
-                }
-            }
-        }
-
+     
         // Frontend Stages (Always executed)
         stage('Frontend Stages') {
             steps {
