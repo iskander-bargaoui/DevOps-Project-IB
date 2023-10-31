@@ -132,7 +132,7 @@
         <repository>
             <id>deploymentRepo</id>
             <name>Nexus Repository</name>
-            <url>http://192.168.126.175:9997/repository/maven-releases/</url> /* To change nexus port ( old 8081) */
+            <url>http://192.168.126.175:9997/repository/maven-releases/</url>
         </repository>
     </distributionManagement>
 </project>
