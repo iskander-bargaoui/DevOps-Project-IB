@@ -1,13 +1,13 @@
 version: '3'
-services:  ## Services include the names of our services and containers ( Declaration Part )
-  mysql-db: ## Service name
+services:
+  mysql-db:
     image: mysql:latest
     container_name: devops-db
     ports:
-      - "3333:3333" ## Port(Old) - 3306:3306
+      - "3333:3306"  # Map host port 3333 to container port 3306
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
-      MYSQL_DATABASE: devops-db ## Name (Old) : devops_project_db
+      MYSQL_DATABASE: devops-db
     volumes:
       - ./data.sql:/docker-entrypoint-initdb.d/data.sql
     networks:
@@ -17,13 +17,13 @@ services:  ## Services include the names of our services and containers ( Declar
     image: iskander20/devopsproject:backapp
     container_name: spring-back-project
     ports:
-      - "8081:8081" ## old port (8082)
+      - "8081:8081"  # Map host port 8081 to container port 8081
     depends_on:
       - mysql-db
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://devops-db:3333/devops-db?&createDatabaseIfNotExist=true&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
+      SPRING_DATASOURCE_URL: jdbc:mysql://devops-db:3306/devops-db?createDatabaseIfNotExist=true&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
       SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: 
+      SPRING_DATASOURCE_PASSWORD:
     networks:
       - my-network
     volumes:
@@ -33,7 +33,7 @@ services:  ## Services include the names of our services and containers ( Declar
     image: iskander20/devopsproject:frontapp
     container_name: angular-front-project
     ports:
-      - "80:80"  ## Exposed via Port : (old 4200:80)
+      - "80:80"  # Map host port 80 to container port 80
     depends_on:
       - back-app
     networks:
