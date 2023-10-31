@@ -12,9 +12,9 @@ FROM openjdk:8-jre-slim
 EXPOSE 8081
 # Install curl in the container
 RUN apt-get update && apt-get install -y curl
-# Download the .jar file from Nexus and copy it to the container / Nexus old port 8081
-ARG NEXUS_URL="http://192.168.126.175:9997/repository/maven-releases/"
-ARG ARTIFACT_PATH="tn/esprit/DevOps_Project/1.0/DevOps_Project-1.0.jar"
-RUN curl -o /DevOps_Project-1.0.jar ${NEXUS_URL}${ARTIFACT_PATH}
+
+# Copy the JAR file built in Stage 1 to the container
+COPY --from=builder /app/target/DevOps_Project-1.0.jar /DevOps_Project-1.0.jar
+
 ENV JAVA_OPTS="-Dlogging.level.org.springframework.security=DEBUG -Djdk.tls.client.protocols=TLSv1.2"
 ENTRYPOINT ["java", "-jar", "/DevOps_Project-1.0.jar"]
