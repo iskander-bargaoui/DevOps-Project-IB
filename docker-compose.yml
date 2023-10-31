@@ -33,7 +33,7 @@ services:  ## Services include the names of our services and containers ( Declar
     image: iskander20/devopsproject:frontapp
     container_name: angular-front-project
     ports:
-      - "4200:80"  ## Exposed via Port 80?
+      - "80:80"  ## Exposed via Port : (old 4200:80)
     depends_on:
       - back-app
     networks:
