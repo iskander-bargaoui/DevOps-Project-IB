@@ -1,13 +1,13 @@
 version: '3'
-services:
-  mysql-db:
+services:  ## Services include the names of our services and containers ( Declaration Part )
+  mysql-db: ## Service name
     image: mysql:latest
     container_name: devops-db
     ports:
-      - "3306:3306"
+      - "3333:3333" ## Port(Old) - 3306:3306
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
-      MYSQL_DATABASE: devops_project_db
+      MYSQL_DATABASE: devops-db ## Name (Old) : devops_project_db
     volumes:
       - ./data.sql:/docker-entrypoint-initdb.d/data.sql
     networks:
@@ -17,11 +17,11 @@ services:
     image: iskander20/devopsproject:backapp
     container_name: spring-back-project
     ports:
-      - "8082:8082"
+      - "8081:8081" ## old port (8082)
     depends_on:
       - mysql-db
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://devops-db:3306/devops_project_db?&createDatabaseIfNotExist=true&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
+      SPRING_DATASOURCE_URL: jdbc:mysql://devops-db:3333/devops-db?&createDatabaseIfNotExist=true&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: 
     networks:
@@ -33,7 +33,7 @@ services:
     image: iskander20/devopsproject:frontapp
     container_name: angular-front-project
     ports:
-      - "4200:80"
+      - "4200:80"  ## Exposed via Port 80?
     depends_on:
       - back-app
     networks:
