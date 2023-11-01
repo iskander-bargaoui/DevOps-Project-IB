@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class ProductService {
   private apiUrl = 'http://192.168.126.175:8081'; 
-
+// old :   private apiUrl = 'http://localhost:8082'; 
   constructor(private http: HttpClient) { }
 
   public fetchAllData(): Observable<any> {
