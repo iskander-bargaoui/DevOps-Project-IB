@@ -33,7 +33,7 @@ services:
     image: iskander20/devopsproject:frontapp
     container_name: angular-front-project
     ports:
-      - "4200:80"  # Map host port 80 to container port 80 /4200:80 old
+      - "80:80"  # Map host port 80 to container port 80 /4200:80 old
     depends_on:
       - back-app
     networks:
