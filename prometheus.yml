@@ -20,7 +20,8 @@ scrape_configs:
 
   # Scraping Backend Spring Boot Application.
   - job_name: 'Springboot Backend Application'
-    metrics_path: /actuator
+#    metrics_path: /actuator
+    scheme: http
     static_configs:
       - targets: ['192.168.126.175:8081'] ## Replace Localhost by IP Address if wanted.
 
@@ -29,3 +30,9 @@ scrape_configs:
     metrics_path: /prometheus
     static_configs:
       - targets: ['192.168.126.175:9999']
+      
+# Scraping Test.
+  - job_name: 'Test'
+    metrics_path: /actuator
+    static_configs:
+      - targets: ['127.0.0.1:9999']
