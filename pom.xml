@@ -28,17 +28,17 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
-        <!-- Micrometer for Metrics -->
-<!--         <dependency>
+<!--         Micrometer for Metrics -->
+        <dependency>
             <groupId>io.micrometer</groupId>
             <artifactId>micrometer-core</artifactId>
-            <version>1.7.0</version>
-        </dependency> -->
+            <version>1.9.12</version>
+        </dependency>
         <dependency>
             <groupId>io.micrometer</groupId>
             <artifactId>micrometer-registry-prometheus</artifactId>
             <scope>runtime</scope>
-            <version>1.7.0</version>
+            <version>1.9.12</version>
         </dependency>
 
         <!-- JAXB API -->
