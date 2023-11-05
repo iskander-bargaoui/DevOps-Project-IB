@@ -12,7 +12,7 @@ alerting:
 
 scrape_configs:
   # Scraping Prometheus itself.
-  - job_name: "prometheus"
+  - job_name: "Promtheus"
     # metrics_path defaults to '/metrics'
     # scheme defaults to 'http'.
     static_configs:
@@ -20,12 +20,12 @@ scrape_configs:
 
   # Scraping Backend Spring Boot Application.
   - job_name: 'Springboot Backend Application'
-    metrics_path: /actuator/spring
+    metrics_path: /actuator/prometheus
     static_configs:
-      - targets: ['192.168.126.175:8081']
+      - targets: ['localhost:8081'] ## Replace Localhost by IP Address if wanted.
 
   # Scraping Jenkins.
   - job_name: 'Jenkins'
-    metrics_path: /actuator/jenkins
+    metrics_path: /actuator/prometheus
     static_configs:
       - targets: ['localhost:9999']
