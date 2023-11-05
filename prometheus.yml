@@ -22,10 +22,10 @@ scrape_configs:
   - job_name: 'Springboot Backend Application'
     metrics_path: /prometheus
     static_configs:
-      - targets: ['http://192.168.126.175:8081']
+      - targets: ['192.168.126.175:8081']
 
   # Scraping Jenkins.
   - job_name: 'Jenkins'
     metrics_path: /prometheus
     static_configs:
-      - targets: ['http://192.168.126.175:9999']
+      - targets: ['192.168.126.175:9999']
