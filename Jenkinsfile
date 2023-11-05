@@ -24,6 +24,14 @@ pipeline {
                 }
             }
         }
+         stage('clean install') {
+            steps {
+                script {
+                    // Stage 2: Compile the project into a .jar file
+                    sh "mvn clean install"
+                }
+            }
+        }
         stage('Compile') {
             steps {
                 script {
