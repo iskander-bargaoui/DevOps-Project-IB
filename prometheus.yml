@@ -12,7 +12,7 @@ alerting:
 
 scrape_configs:
   # Scraping Prometheus itself.
-  - job_name: "Promtheus"
+  - job_name: "Prometheus"
     # metrics_path defaults to '/metrics'
     # scheme defaults to 'http'.
     static_configs:
@@ -30,9 +30,9 @@ scrape_configs:
     metrics_path: /prometheus
     static_configs:
       - targets: ['192.168.126.175:9999']
-      
-# Scraping Test.
-  - job_name: 'Test'
-    metrics_path: /actuator
-    static_configs:
-      - targets: ['172.18.0.6:8081']
+
+# Optionally, you can remove the "Test" job if it's not needed.
+# - job_name: 'Test'
+#   metrics_path: /actuator
+#   static_configs:
+#     - targets: ['172.18.0.6:8081']
