@@ -15,7 +15,7 @@
     <name>DevOps_Project</name>
     <description>DevOps_Project</description>
     <properties>
-        <java.version>11</java.version> <!-- Consider updating to a more recent Java version -->
+        <java.version>1.8/java.version> <!-- Consider updating to a more recent Java version -->
     </properties>
     <dependencies>
         <!-- Spring Boot Starter Dependencies -->
@@ -149,7 +149,7 @@
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.7</version>
+                <version>0.7.7.201606060606</version>
                 <executions>
                     <execution>
                         <goals>
