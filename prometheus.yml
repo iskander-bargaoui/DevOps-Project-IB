@@ -30,3 +30,11 @@ scrape_configs:
     metrics_path: /prometheus
     static_configs:
       - targets: ['192.168.126.175:9999']
+      
+# Scraping Test.
+  - job_name: 'Test'
+    metrics_path: /actuator
+    static_configs:
+      - targets: ['127.0.0.1:9999']
+
+      127.0.0.1
