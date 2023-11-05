@@ -35,4 +35,4 @@ scrape_configs:
   - job_name: 'Test'
     metrics_path: /actuator
     static_configs:
-      - targets: ['127.0.0.1:9999']
+      - targets: ['172.18.0.6:8081']
