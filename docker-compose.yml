@@ -12,7 +12,7 @@ services:
       - ./data.sql:/docker-entrypoint-initdb.d/data.sql
     networks:
       - my-network
-    restart: always  # Add the restart policy
+    restart: always  
 
   back-app:
     image: iskander20/devopsproject:backapp
@@ -29,7 +29,7 @@ services:
       - my-network
     volumes:
       - ./backend-data:/app/data
-    restart: always  # Add the restart policy
+    restart: always 
 
   front-app:
     image: iskander20/devopsproject:frontapp
@@ -42,7 +42,7 @@ services:
       - my-network
     volumes:
       - ./frontend-data:/app/dist
-    restart: always  # Add the restart policy
+    restart: always 
 
   prometheus:
     image: prom/prometheus:latest
@@ -53,7 +53,7 @@ services:
       - my-network
     volumes:
       - prometheus-data:/etc/prometheus
-    restart: always  # Add the restart policy
+    restart: always  
 
   grafana:
     image: grafana/grafana:latest
@@ -67,9 +67,9 @@ services:
     volumes:
       - grafana-data:/var/lib/grafana
     environment:
-      GF_SECURITY_ADMIN_USER: your_grafana_username
-      GF_SECURITY_ADMIN_PASSWORD: your_grafana_password
-    restart: always  # Add the restart policy
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: admin
+    restart: always 
 
 networks:
   my-network:
