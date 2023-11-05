@@ -4,7 +4,7 @@ services:
     image: mysql:latest
     container_name: devops-db
     ports:
-      - "3333:3306"  # Map host port 3333 to container port 3306
+      - "3333:3306"
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
       MYSQL_DATABASE: devops_project_db
@@ -17,7 +17,7 @@ services:
     image: iskander20/devopsproject:backapp
     container_name: spring-back-project
     ports:
-      - "8081:8081"  # Map host port 8081 to container port 8081
+      - "8081:8081"
     depends_on:
       - mysql-db
     environment:
@@ -33,7 +33,7 @@ services:
     image: iskander20/devopsproject:frontapp
     container_name: angular-front-project
     ports:
-      - "80:80"  # Map host port 80 to container port 80
+      - "80:80"
     depends_on:
       - back-app
     networks:
@@ -41,5 +41,34 @@ services:
     volumes:
       - ./frontend-data:/app/dist
 
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    ports:
+      - "9090:9090"
+    networks:
+      - my-network
+    volumes:
+      - prometheus-data:/etc/prometheus
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    depends_on:
+      - prometheus
+    networks:
+      - my-network
+    volumes:
+      - grafana-data:/var/lib/grafana
+    environment:
+      GF_SECURITY_ADMIN_USER: your_grafana_username
+      GF_SECURITY_ADMIN_PASSWORD: your_grafana_password
+
 networks:
   my-network:
+
+volumes:
+  grafana-data:
+  prometheus-data:
