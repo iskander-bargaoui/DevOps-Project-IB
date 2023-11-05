@@ -1,0 +1,31 @@
+# my global config
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+# Alertmanager configuration
+alerting:
+  alertmanagers:
+    - static_configs:
+      - targets:
+        # - alertmanager:9093
+
+scrape_configs:
+  # Scraping Prometheus itself.
+  - job_name: "prometheus"
+    # metrics_path defaults to '/metrics'
+    # scheme defaults to 'http'.
+    static_configs:
+      - targets: ["localhost:9090"]
+
+  # Scraping Backend Spring Boot Application.
+  - job_name: 'Springboot Backend Application'
+    metrics_path: /prometheus
+    static_configs:
+      - targets: ['http://192.168.126.175:8081']
+
+  # Scraping Jenkins.
+  - job_name: 'Jenkins'
+    metrics_path: /prometheus
+    static_configs:
+      - targets: ['http://192.168.126.175:9999']
