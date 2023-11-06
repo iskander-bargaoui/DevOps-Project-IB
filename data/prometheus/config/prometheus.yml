@@ -40,3 +40,16 @@ scrape_configs:
     metrics_path: /prometheus
     static_configs:
       - targets: ['192.168.126.175:9999']
+
+  # Scraping Spring TEST IP.
+  - job_name: 'Test-Backend-IP'
+    metrics_path: /actuator
+    static_configs:
+      - targets: ['192.168.126.175:8081']
+
+  # Scraping Spring TEST Localhost.
+  - job_name: 'Test-Backend-Localhost'
+    metrics_path: /actuator
+    scheme: http
+    static_configs:
+      - targets: ['localhost:8081']
