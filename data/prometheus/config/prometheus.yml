@@ -39,3 +39,8 @@ scrape_configs:
     metrics_path: /actuator
     static_configs:
       - targets: ['192.168.126.175:8081']
+  
+   # Supervising Containers.
+  - job_name: 'Back-Front-Containers'
+    static_configs:
+      - targets: ['192.168.126.175:8080']
