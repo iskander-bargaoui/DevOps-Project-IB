@@ -1,14 +1,18 @@
 pipeline {
+    // Defining Agents
     agent any
+    // Environment Variables
     environment {
         DOCKERHUB_USERNAME = "iskander20"
         BACKTAG = "${DOCKERHUB_USERNAME}/devopsproject:backapp"
         FRONTAG = "${DOCKERHUB_USERNAME}/devopsproject:frontapp"
     }
+    // Defining Tools To be Used - Declarative
     tools {
         jdk 'java1.8'
         nodejs 'NodeJS'
     }
+    // Defining Stages
     stages {
         stage('SCM Checkout - Backend') {
             steps {
@@ -127,6 +131,7 @@ pipeline {
                 }
             }
         }
+
         // Building Docker Image for Frontend
         stage('Docker Image Build - Frontend') {
             steps {
@@ -135,6 +140,7 @@ pipeline {
                 }
             }
         }
+
         stage('Docker Login') {
             steps {
                 script {
@@ -144,6 +150,7 @@ pipeline {
                 }
             }
         }
+
         stage('Docker Push - Frontend Image') {
             steps {
                 script {
@@ -160,7 +167,7 @@ pipeline {
             }
         }
         
-        // Sending EMail Notification ( NgRok )
+        // Sending EMail Notification ( NgRok + Cron Job)
 
         stage('Email Alerting Notification') {
             steps {
@@ -184,4 +191,19 @@ pipeline {
         }
       
     }
+
+    post {
+        success {
+            emailext subject: 'Successful Deployment',
+                      body: 'Your pipeline was successfuly deployed.',
+                      to: 'iskanderbargaouitest@gmail.com'
+        }
+        failure {
+            emailext subject: 'Deployment Failed',
+                      body: 'Your pipeline was not sucessfully deployed, verify file logs at /var/log/jenkins.log for more information.',
+                      to: 'iskanderbargaouitest@gmail.com'
+        }
+    }
+}
+
 }
