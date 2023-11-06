@@ -10,7 +10,7 @@ pipeline {
         nodejs 'NodeJS'
     }
     stages {
-        stage('SCM Checkout') {
+        stage('SCM Checkout - Backend') {
             steps {
                 script {
                     // Stage 1: Git Checkout
@@ -24,7 +24,7 @@ pipeline {
                 }
             }
         }
-         stage('clean install') {
+         stage('Cleaning Project') {
             steps {
                 script {
                     // Stage 2: Compile the project into a .jar file
@@ -32,7 +32,7 @@ pipeline {
                 }
             }
         }
-        stage('Compile') {
+        stage('Backend Compilation') {
             steps {
                 script {
                     // Stage 2: Compile the project into a .jar file
@@ -40,7 +40,7 @@ pipeline {
                 }
             }
         }
-        stage('Building Back Application') {
+        stage('Unitary Tests') {
             steps {
                 script {
                     // Stage 3: Run tests
@@ -48,7 +48,7 @@ pipeline {
                 }
             }
         }
-        stage('Build') {
+        stage('Building Backend Application') {
             steps {
                 script {
                     // Stage 4: Build the application
@@ -56,7 +56,7 @@ pipeline {
                 }
             }
         }
-        stage('SonarQube Analysis') {
+        stage('SonarQube - Analysis') {
             tools {
                 jdk 'java11.1'
             }
@@ -71,7 +71,7 @@ pipeline {
 
            // Nexus
 
-        stage('Deploy Artifacts') {
+        stage('Nexus - Deploying Artifacts') {
             steps {
                 script {
                     // Execute mvn deploy skipping tests
@@ -81,7 +81,7 @@ pipeline {
         }
 
         // Building Docker Image for Backend
-        stage('Docker Build Image') {
+        stage('Docker Image Build - Backend') {
             steps {
                 script {
                     sh "docker build -t $BACKTAG ."
@@ -97,7 +97,7 @@ pipeline {
                 }
             }
         }
-        stage('Docker Push') {
+        stage('Docker Push - Backend Application') {
             steps {
                 script {
                     sh "docker push $BACKTAG"
@@ -106,7 +106,7 @@ pipeline {
         }
      
         // Frontend Stages (Always executed)
-        stage('Frontend Stages') {
+        stage('SCM Checkout - Frontend') {
             steps {
                 script {
                     // Stage: Git Checkout to the 'Front' branch
@@ -128,14 +128,14 @@ pipeline {
             }
         }
         // Building Docker Image for Frontend
-        stage('Docker Build Image Front') {
+        stage('Docker Image Build - Frontend') {
             steps {
                 script {
                     sh "docker build -t $FRONTAG ."
                 }
             }
         }
-        stage('Docker Login Front') {
+        stage('Docker Login') {
             steps {
                 script {
                     withCredentials([usernamePassword(credentialsId: 'DockerHubCreds', usernameVariable: 'DOCKERHUB_USERNAME', passwordVariable: 'DOCKERHUB_PASSWORD')]) {
@@ -144,7 +144,7 @@ pipeline {
                 }
             }
         }
-        stage('Docker Push Front Image') {
+        stage('Docker Push - Frontend Image') {
             steps {
                 script {
                     sh "docker push $FRONTAG"
@@ -152,21 +152,36 @@ pipeline {
             }
         }
 
-
-        stage('Deploy Docker Compose') {
+        // Deploying Docker Compose
+        
+        stage('Docker Compose - Deployment') {
             steps {
                 sh 'docker-compose up -d'  // Deploy Docker Compose services
             }
         }
-        // Testing Front UI
-      /*  stage('Docker Test Front UI') {
+        
+        // Sending EMail Notification ( NgRok )
+
+        stage('Email Alerting Notification') {
             steps {
                 script {
-                    sh "docker run -p 4200:4200 $FRONTAG"
+                    // Reading the contents of the Readme.MD file
+                    def contenuReadMe = readFile('README.md') 
+                    
+                    def subject = 'New DevOps Project Pipeline Commit - Iskander BARGAOUI'
+                    def buildStartTime = new Date(currentBuild.startTimeInMillis)
+                    def formattedDate = buildStartTime.format('yyyy-MM-dd HH:mm:ss')
+                    def body = "A new commit has been made to the repository on ${formattedDate}.\n\n${contenuReadMe}"
+                    def to = 'iskanderbargaouitest@gmail.com'
+                    
+                    mail(
+                        subject: subject,
+                        body: body,
+                        to: to,
+                    )
                 }
             }
-        }*/ 
-
-        // Grafana + Prometheus
+        }
+      
     }
 }
