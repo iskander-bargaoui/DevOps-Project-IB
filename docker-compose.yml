@@ -53,7 +53,6 @@ services:
       - my-network
     volumes:
       - prometheus-data:/etc/prometheus
-      - ./prometheus.yml:/etc/prometheus/prometheus.yml  # Mount your prometheus.yml
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
     restart: always
