@@ -28,7 +28,7 @@ pipeline {
                 }
             }
         }
-         stage('Cleaning Project') {
+        stage('Cleaning Project') {
             steps {
                 script {
                     // Stage 2: Compile the project into a .jar file
@@ -72,9 +72,7 @@ pipeline {
                 }
             }
         }
-
-           // Nexus
-
+        // Nexus
         stage('Nexus - Deploying Artifacts') {
             steps {
                 script {
@@ -83,7 +81,6 @@ pipeline {
                 }
             }
         }
-
         // Building Docker Image for Backend
         stage('Docker Image Build - Backend') {
             steps {
@@ -108,7 +105,6 @@ pipeline {
                 }
             }
         }
-     
         // Frontend Stages (Always executed)
         stage('SCM Checkout - Frontend') {
             steps {
@@ -121,7 +117,6 @@ pipeline {
                             credentialsId: 'GithubJenkinsToken'
                         ]]
                     ])
-
                     // Change to the directory containing your Angular frontend code
                     dir('Front') {
                         // Build the Angular frontend
@@ -131,7 +126,6 @@ pipeline {
                 }
             }
         }
-
         // Building Docker Image for Frontend
         stage('Docker Image Build - Frontend') {
             steps {
@@ -140,7 +134,6 @@ pipeline {
                 }
             }
         }
-
         stage('Docker Login') {
             steps {
                 script {
@@ -150,7 +143,6 @@ pipeline {
                 }
             }
         }
-
         stage('Docker Push - Frontend Image') {
             steps {
                 script {
@@ -158,29 +150,23 @@ pipeline {
                 }
             }
         }
-
         // Deploying Docker Compose
-        
         stage('Docker Compose - Deployment') {
             steps {
                 sh 'docker-compose up -d'  // Deploy Docker Compose services
             }
         }
-        
-        // Sending EMail Notification ( NgRok + Cron Job)
-
+        // Sending Email Notification (NgRok + Cron Job)
         stage('Email Alerting Notification') {
             steps {
                 script {
-                    // Reading the contents of the Readme.MD file
+                    // Reading the contents of the README.md file
                     def contenuReadMe = readFile('README.md') 
-                    
                     def subject = 'New DevOps Project Pipeline Commit - Iskander BARGAOUI'
                     def buildStartTime = new Date(currentBuild.startTimeInMillis)
                     def formattedDate = buildStartTime.format('yyyy-MM-dd HH:mm:ss')
                     def body = "A new commit has been made to the repository on ${formattedDate}.\n\n${contenuReadMe}"
                     def to = 'iskanderbargaouitest@gmail.com'
-                    
                     mail(
                         subject: subject,
                         body: body,
@@ -189,21 +175,17 @@ pipeline {
                 }
             }
         }
-      
     }
-
     post {
         success {
             emailext subject: 'Successful Deployment',
-                      body: 'Your pipeline was successfuly deployed.',
+                      body: 'Your pipeline was successfully deployed.',
                       to: 'iskanderbargaouitest@gmail.com'
         }
         failure {
             emailext subject: 'Deployment Failed',
-                      body: 'Your pipeline was not sucessfully deployed, verify file logs at /var/log/jenkins.log for more information.',
+                      body: 'Your pipeline was not successfully deployed. Verify file logs at /var/log/jenkins.log for more information.',
                       to: 'iskanderbargaouitest@gmail.com'
         }
     }
-}
-
 }
