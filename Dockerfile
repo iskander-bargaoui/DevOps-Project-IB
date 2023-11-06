@@ -14,6 +14,7 @@ RUN apt-get update && apt-get install -y curl
 # Download the .jar file from Nexus and copy it to the container
 ARG NEXUS_URL="http://192.168.126.175:9997/repository/maven-releases/"
 ARG ARTIFACT_PATH="tn/esprit/DevOps_Project/1.0/DevOps_Project-1.0.jar"
+# Downloading the Jar
 RUN curl -o /DevOps_Project-1.0.jar ${NEXUS_URL}${ARTIFACT_PATH}
 ENV JAVA_OPTS="-Dlogging.level.org.springframework.security=DEBUG -Djdk.tls.client.protocols=TLSv1.2"
 ENTRYPOINT ["java", "-jar", "/DevOps_Project-1.0.jar"]
