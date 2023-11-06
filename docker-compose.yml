@@ -52,7 +52,8 @@ services:
     networks:
       - my-network
     volumes:
-      - prometheus-data:/etc/prometheus
+      - ./data/prometheus/config:/etc/prometheus
+#      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
     restart: always
