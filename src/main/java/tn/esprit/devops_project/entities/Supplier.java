@@ -1,6 +1,7 @@
 package tn.esprit.devops_project.entities;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -34,7 +35,6 @@ public class Supplier implements Serializable {
 	@OneToMany(mappedBy="supplier")
 	@JsonIgnore
 	Set<Invoice> invoices;
-    
 
-	
+
 }
