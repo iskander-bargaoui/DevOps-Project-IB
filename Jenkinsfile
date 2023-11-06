@@ -127,6 +127,7 @@ pipeline {
                 }
             }
         }
+
         // Building Docker Image for Frontend
         stage('Docker Image Build - Frontend') {
             steps {
@@ -135,6 +136,7 @@ pipeline {
                 }
             }
         }
+
         stage('Docker Login') {
             steps {
                 script {
@@ -144,6 +146,7 @@ pipeline {
                 }
             }
         }
+
         stage('Docker Push - Frontend Image') {
             steps {
                 script {
@@ -160,7 +163,7 @@ pipeline {
             }
         }
         
-        // Sending EMail Notification ( NgRok )
+        // Sending EMail Notification ( NgRok + Cron Job)
 
         stage('Email Alerting Notification') {
             steps {
@@ -184,4 +187,19 @@ pipeline {
         }
       
     }
+
+    post {
+        success {
+            emailext subject: 'Successful Deployment',
+                      body: 'Your pipeline was successfuly deployed.',
+                      to: 'iskanderbargaouitest@gmail.com'
+        }
+        failure {
+            emailext subject: 'Deployment Failed',
+                      body: 'Your pipeline was not sucessfully deployed, verify file logs at /var/log/jenkins.log for more information.',
+                      to: 'iskanderbargaouitest@gmail.com'
+        }
+    }
+}
+
 }
