@@ -88,7 +88,7 @@ pipeline {
                 }
             }
         }
-        stage('Docker Login') {
+        stage('Docker Login Backend') {
             steps {
                 script {
                     withCredentials([usernamePassword(credentialsId: 'DockerHubCreds', usernameVariable: 'DOCKERHUB_USERNAME', passwordVariable: 'DOCKERHUB_PASSWORD')]) {
