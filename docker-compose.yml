@@ -54,7 +54,7 @@ services:
     volumes:
       - prometheus-data:/etc/prometheus
     command:
-      - '--config.file=/etc/prometheus/prometheus.yaml'
+      - '--config.file=/etc/prometheus/prometheus.yml'
     restart: always
 
   grafana:
