@@ -180,12 +180,12 @@ pipeline {
         success {
             emailext subject: 'Successful Deployment',
                       body: 'Your pipeline was successfully deployed.',
-                      to: 'iskanderbargaouitest@gmail.com'
+                      to: 'iskander.bargaoui@gmail.com'
         }
         failure {
             emailext subject: 'Deployment Failed',
                       body: 'Your pipeline was not successfully deployed. Verify file logs at /var/log/jenkins.log for more information.',
-                      to: 'iskanderbargaouitest@gmail.com'
+                      to: 'iskander.bargaoui@gmail.com'
         }
     }
 }
